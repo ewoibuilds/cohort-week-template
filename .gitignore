@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+node_modules/
+vendor/
+*.sqlite
+*.pem
+*.key
+.DS_Store
+Thumbs.db

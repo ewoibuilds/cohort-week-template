@@ -1,0 +1,15 @@
+name: checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  week:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No secret files committed
+        run: |
+          found=$(git ls-files | grep -E '(^|/)\.env($|\.)|\.pem$|\.key$' | grep -v '\.env\.example$' || true)
+          if [ -n "$found" ]; then echo "Remove these from Git and change the secrets in them:"; echo "$found"; exit 1; fi
+      - name: Week files are present
+        run: for f in README.md WEEK.md LOG.md REFLECTION.md; do test -s "$f" || { echo "$f is missing or empty"; exit 1; }; done
